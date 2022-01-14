@@ -17,7 +17,10 @@
     1. `git branch -M main`
     1. `git pull`
     1. `npm install`
-    1. For ios: `cd ios/ && pod install`
+    1. For ios: 
+
+        1. `cd ios/ && pod install`
+        1. In XCode, open .workspace file. File > Add Package, enter `https://github.com/firebase/firebase-ios-sdk`
 
 
 1. Go to main directory and start app with `npx react-native run-ios`
