@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, Text } from 'react-native';
+import { StyleSheet, Button, ScrollView, ActivityIndicator, View, Text } from 'react-native';
 
 class ProfileScreen extends Component {
 
@@ -26,6 +26,8 @@ class ProfileScreen extends Component {
 		return (
 			<ScrollView>
 				<Text style={styles.text}>Profile Screen</Text>
+				<Button title="LandingNavigator" 
+					onPress={ () => {this.props.navigation.navigate('LandingNavigator')} }/>
 			</ScrollView>
 		);
 	}
