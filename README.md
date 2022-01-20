@@ -21,6 +21,7 @@
 
         1. `cd ios/ && pod install`
         1. In XCode, open .workspace file. File > Add Package, enter `https://github.com/firebase/firebase-ios-sdk`
+        1. Then open Signing & Capabilities and select a Team. 
 
 
 1. Go to main directory and start app with `npx react-native run-ios`
