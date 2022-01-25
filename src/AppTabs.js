@@ -1,60 +1,18 @@
 import React, {useContext} from 'react';
-import {Center} from './components/Center';
-import {Text, Button} from 'react-native';
+import {Button} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {AuthContext} from './AuthProvider';
+import {AuthContext} from './authentication/AuthProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HomeStack} from './stacks/HomeStack';
+import {SearchStack} from './stacks/SearchStack';
+import {ShopStack} from './stacks/ShopStack';
+import {MessagesStack} from './stacks/MessagesStack';
+import {ProfileStack} from './stacks/ProfileStack';
 
 const Tabs = createBottomTabNavigator();
 
-function Home() {
-  const {logout} = useContext(AuthContext);
-  return (
-    <Center>
-      <Text>Home</Text>
-      <Button
-        title="Logout"
-        onPress={() => {
-          logout();
-        }}
-      />
-    </Center>
-  );
-}
-
-function Search() {
-  return (
-    <Center>
-      <Text>Search</Text>
-    </Center>
-  );
-}
-
-function Shop() {
-  return (
-    <Center>
-      <Text>Search</Text>
-    </Center>
-  );
-}
-
-function Messages() {
-  return (
-    <Center>
-      <Text>Search</Text>
-    </Center>
-  );
-}
-
-function Profile() {
-  return (
-    <Center>
-      <Text>Search</Text>
-    </Center>
-  );
-}
-
 export const AppTabs = () => {
+  const {logout} = useContext(AuthContext);
   return (
     <Tabs.Navigator
       screenOptions={({route}) => ({
@@ -62,19 +20,19 @@ export const AppTabs = () => {
           let iconName;
 
           switch (route.name) {
-            case 'Home':
+            case 'HomeStack':
               iconName = focused ? 'home' : 'home-outline';
               break;
-            case 'Search':
+            case 'SearchStack':
               iconName = focused ? 'search' : 'search-outline';
               break;
-            case 'Shop':
+            case 'ShopStack':
               iconName = focused ? 'shirt' : 'shirt-outline';
               break;
-            case 'Messages':
+            case 'MessagesStack':
               iconName = focused ? 'mail' : 'mail-outline';
               break;
-            case 'Profile':
+            case 'ProfileStack':
               iconName = focused ? 'person' : 'person-outline';
               break;
             default:
@@ -84,14 +42,55 @@ export const AppTabs = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
+        tabBarShowLabel: false,
       })}>
-      <Tabs.Screen name="Home" component={Home} />
-      <Tabs.Screen name="Search" component={Search} />
-      <Tabs.Screen name="Shop" component={Shop} />
-      <Tabs.Screen name="Messages" component={Messages} />
-      <Tabs.Screen name="Profile" component={Profile} />
+      <Tabs.Screen
+        name="HomeStack"
+        options={{
+          title: 'Home',
+        }}
+        component={HomeStack}
+      />
+      <Tabs.Screen
+        name="SearchStack"
+        options={{
+          title: 'Search',
+        }}
+        component={SearchStack}
+      />
+      <Tabs.Screen
+        name="ShopStack"
+        options={{
+          title: 'Shop',
+        }}
+        component={ShopStack}
+      />
+      <Tabs.Screen
+        name="MessagesStack"
+        options={{
+          title: 'Messages',
+        }}
+        component={MessagesStack}
+      />
+      <Tabs.Screen
+        name="ProfileStack"
+        options={{
+          title: 'Profile',
+          headerRight: () => {
+            return (
+              <Button
+                title="logout"
+                onPress={() => {
+                  logout();
+                }}
+              />
+            );
+          },
+        }}
+        component={ProfileStack}
+      />
     </Tabs.Navigator>
   );
 };

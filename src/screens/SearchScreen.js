@@ -2,10 +2,10 @@ import React from 'react';
 import {Center} from '../components/Center';
 import {Text} from 'react-native';
 
-export const ProfileScreen = () => {
+export const SearchScreen = () => {
   return (
     <Center>
-      <Text>Profile Screen</Text>
+      <Text>Search Screen</Text>
     </Center>
   );
 };
