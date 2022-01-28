@@ -15,7 +15,8 @@
     1. `git init`
     1. `git remote add origin https://github.com/nmark00/ReasyGo.git`
     1. `git branch -M main`
-    1. `git pull`
+    1. `git pull` use `git reset --hard origin/master` if error
+
     1. `npm install`
     1. For ios: 
 
