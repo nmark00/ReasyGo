@@ -3,7 +3,7 @@ import {Text, Button} from 'react-native';
 import {Center} from '../components/Center';
 import {AuthContext} from '../authentication/AuthProvider';
 
-export const Login = ({navigation}) => {
+export const LoginScreen = ({navigation}) => {
   const {login} = useContext(AuthContext);
 
   return (
