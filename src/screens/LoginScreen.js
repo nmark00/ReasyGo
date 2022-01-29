@@ -1,7 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {Text, Button, TextInput} from 'react-native';
-import {Center} from '../components/Center';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+} from 'react-native';
 import {AuthContext} from '../authentication/AuthProvider';
+import {AuthStyles} from '../styles/AuthStyles';
 
 export const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -17,28 +23,55 @@ export const LoginScreen = ({navigation}) => {
   };
 
   return (
-    <Center>
-      <Text>Login Screen</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-        placeholder="password"
-      />
-      <Button title="Login" onPress={signInUserWithEmail} />
-      <Button
-        title="Go to Signup"
-        onPress={() => {
-          navigation.navigate('SignupScreen');
-        }}
-      />
-    </Center>
+    <View style={AuthStyles.colorContainer}>
+      <ImageBackground
+        source={require('../../assets/clothes.png')}
+        style={AuthStyles.imgBackground}
+        resizeMode="cover">
+        <View style={AuthStyles.container}>
+          <View style={AuthStyles.transparent} />
+          <View style={AuthStyles.authContainer}>
+            <Text style={AuthStyles.title}>Log In</Text>
+            <TextInput
+              style={AuthStyles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="email"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              style={AuthStyles.input}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              placeholder="password"
+              autoCapitalize="none"
+            />
+            <TouchableOpacity
+              style={AuthStyles.button}
+              onPress={signInUserWithEmail}>
+              <Text style={AuthStyles.buttonTitle}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={AuthStyles.textButton} onPress={() => {}}>
+              <Text style={AuthStyles.textButtonTitle}>Forgot Password?</Text>
+            </TouchableOpacity>
+            <View style={AuthStyles.separator}>
+              <View style={AuthStyles.divider} />
+              <Text style={AuthStyles.separatorText}>or</Text>
+              <View style={AuthStyles.divider} />
+            </View>
+            <TouchableOpacity
+              style={AuthStyles.secondButton}
+              onPress={() => {
+                navigation.navigate('SignupScreen');
+              }}>
+              <Text style={AuthStyles.secondButtonTitle}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };
