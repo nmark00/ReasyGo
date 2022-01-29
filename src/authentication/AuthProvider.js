@@ -20,6 +20,48 @@ export const AuthProvider = ({children}) => {
     }
   };
 
+  const signUpUserEmail = (email, password) => {
+    setInitializing(true);
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('User account created & signed in!');
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
+    setInitializing(false);
+  };
+
+  const signInUserEmail = (email, password) => {
+    setInitializing(true);
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('User account successfully signed in!');
+      })
+      .catch(error => {
+        console.log(error.code);
+        console.error(error);
+      });
+    setInitializing(false);
+  };
+
+  const signOutUser = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out'))
+      .catch(error => console.error(error));
+  };
+
   // Set up authentication listener
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -31,35 +73,9 @@ export const AuthProvider = ({children}) => {
     <AuthContext.Provider
       value={{
         user,
-        login: () => {
-          const fakeUser = {username: 'bob'};
-          setUser(fakeUser);
-          AsyncStorage.setItem('user', JSON.stringify(fakeUser));
-        },
-        logout: () => {
-          setUser(null);
-          AsyncStorage.removeItem('user');
-        },
-        signUpUserEmail: (email, password) => {
-          setInitializing(true);
-          auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-              console.log('User account created & signed in!');
-            })
-            .catch(error => {
-              if (error.code === 'auth/email-already-in-use') {
-                console.log('That email address is already in use!');
-              }
-
-              if (error.code === 'auth/invalid-email') {
-                console.log('That email address is invalid!');
-              }
-
-              console.error(error);
-            });
-          setInitializing(false);
-        },
+        signUpUserEmail: signUpUserEmail,
+        signInUserEmail: signInUserEmail,
+        signOutUser: signOutUser,
       }}>
       {children}
     </AuthContext.Provider>
