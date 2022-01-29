@@ -8,7 +8,7 @@ import {AppTabs} from './AppTabs';
 import {AuthStack} from './authentication/AuthStack';
 
 export const Routes = () => {
-  const {user, login} = useContext(AuthContext);
+  const {user, login, initializing} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,9 @@ export const Routes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) {
+  // Return loading screen if initializing
+  // TODO: What to do if accessing backend fails? Don't want to keep showing loading
+  if (initializing) {
     return (
       <Center>
         <ActivityIndicator size="large" />

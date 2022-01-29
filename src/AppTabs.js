@@ -12,7 +12,7 @@ import {ProfileStack} from './stacks/ProfileStack';
 const Tabs = createBottomTabNavigator();
 
 export const AppTabs = () => {
-  const {logout} = useContext(AuthContext);
+  const {signOutUser} = useContext(AuthContext);
   return (
     <Tabs.Navigator
       screenOptions={({route}) => ({
@@ -79,14 +79,7 @@ export const AppTabs = () => {
         options={{
           title: 'Profile',
           headerRight: () => {
-            return (
-              <Button
-                title="logout"
-                onPress={() => {
-                  logout();
-                }}
-              />
-            );
+            return <Button title="logout" onPress={signOutUser} />;
           },
         }}
         component={ProfileStack}
