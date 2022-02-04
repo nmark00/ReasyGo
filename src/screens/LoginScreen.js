@@ -1,58 +1,77 @@
-import React, { Component } from 'react';
-import { StyleSheet, Button, ScrollView, ActivityIndicator, View, Text } from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+} from 'react-native';
+import {AuthContext} from '../authentication/AuthProvider';
+import {AuthStyles} from '../styles/AuthStyles';
 
-class LoginScreen extends Component {
+export const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-	constructor() {
-		super();
-		this.state = {
-			isLoading: false,
-		};
-	}
+  const {signInUserEmail} = useContext(AuthContext);
 
-	componentDidMount() {
+  const signInUserWithEmail = () => {
+    // TODO: Have better error handling here?
+    signInUserEmail(email, password);
+    setEmail('');
+    setPassword('');
+  };
 
-	}
-
-
-	render() {
-		if (this.state.isLoading) {
-			return (
-				<View style={styles.preloader}>
-					<ActivityIndicator size="large" color="#9E9E9E"/>
-				</View>
-			)
-		}
-		return (
-			<ScrollView>
-				<Text style={styles.text}>Login Screen</Text>
-				<Button title="HomeNavigator" 
-					onPress={ () => {this.props.navigation.navigate('HomeNavigator')} }/>
-			</ScrollView>
-		);
-	}
-}
-
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-  },
-  text: {
-    fontSize: 21,
-  },
-  preloader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  card: {
-
-  }
-})
-
-
-export default LoginScreen;
+  return (
+    <View style={AuthStyles.colorContainer}>
+      <ImageBackground
+        source={require('../../assets/clothes.png')}
+        style={AuthStyles.imgBackground}
+        resizeMode="cover">
+        <View style={AuthStyles.container}>
+          <View style={AuthStyles.transparent} />
+          <View style={AuthStyles.authContainer}>
+            <Text style={AuthStyles.title}>Log In</Text>
+            <TextInput
+              style={AuthStyles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="email"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              style={AuthStyles.input}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              placeholder="password"
+              autoCapitalize="none"
+            />
+            <TouchableOpacity
+              style={AuthStyles.button}
+              onPress={signInUserWithEmail}>
+              <Text style={AuthStyles.buttonTitle}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={AuthStyles.textButton} onPress={() => {}}>
+              <Text style={AuthStyles.textButtonTitle}>Forgot Password?</Text>
+            </TouchableOpacity>
+            <View style={AuthStyles.separator}>
+              <View style={AuthStyles.divider} />
+              <Text style={AuthStyles.separatorText}>or</Text>
+              <View style={AuthStyles.divider} />
+            </View>
+            <TouchableOpacity
+              style={AuthStyles.secondButton}
+              onPress={() => {
+                navigation.navigate('SignupScreen');
+              }}>
+              <Text style={AuthStyles.secondButtonTitle}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+  );
+};
