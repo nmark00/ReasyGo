@@ -8,12 +8,14 @@ import {
 } from 'react-native';
 import {AuthContext} from '../authentication/AuthProvider';
 import {AuthStyles} from '../styles/AuthStyles';
+import {Center} from '../components/Center';
+import {ActivityIndicator} from 'react-native';
 
 export const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {signInUserEmail} = useContext(AuthContext);
+  const {signInUserEmail, initializing} = useContext(AuthContext);
 
   const signInUserWithEmail = () => {
     // TODO: Have better error handling here?
@@ -21,6 +23,14 @@ export const LoginScreen = ({navigation}) => {
     setEmail('');
     setPassword('');
   };
+
+  if (initializing) {
+    return (
+      <Center>
+        <ActivityIndicator size="large" />
+      </Center>
+    );
+  }
 
   return (
     <View style={AuthStyles.colorContainer}>
