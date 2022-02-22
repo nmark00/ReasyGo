@@ -15,6 +15,10 @@ export const AuthProvider = ({children}) => {
   const [onboarded, setOnboarded] = useState(false);
 
   const onAuthStateChanged = userState => {
+    // NOTE: We can do something like first setting user preferences (including onboarding status),
+    // then setting the firebase user state to avoid the onboarding stack appearing when logging in
+    // We may need to use a state management library for user preferences too.
+
     // Set user
     setUser(userState);
 
