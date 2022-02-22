@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {checkUserOnboard} from '../firebase/UsersFirestore';
 
 export const AuthContext = React.createContext({
   user: null,
@@ -12,16 +12,41 @@ export const AuthProvider = ({children}) => {
   // Important Authentication State for the whole app
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
+  const [onboarded, setOnboarded] = useState(false);
 
   const onAuthStateChanged = userState => {
+    // NOTE: We can do something like first setting user preferences (including onboarding status),
+    // then setting the firebase user state to avoid the onboarding stack appearing when logging in
+    // We may need to use a state management library for user preferences too.
+
+    // Set user
     setUser(userState);
+
+    // Check if user is onboarded
+    checkOnboarded(userState);
+
+    // Set initializing to false
     if (initializing) {
       setInitializing(false);
+    }
+
+    console.log(`Auth onboarded set to: ${onboarded}`);
+  };
+
+  const checkOnboarded = async userState => {
+    // If the no current user, set onboarded to false
+    if (!userState) {
+      setOnboarded(false);
+      console.log(`Hard set onboard status to: ${false}`);
+    } else {
+      // Check if the current user has an entry
+      const onboardStatus = await checkUserOnboard(userState.uid);
+      setOnboarded(onboardStatus);
+      console.log(`Set onboard status to: ${onboardStatus}`);
     }
   };
 
   const signUpUserEmail = (email, password) => {
-    setInitializing(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
@@ -38,11 +63,9 @@ export const AuthProvider = ({children}) => {
 
         console.error(error);
       });
-    setInitializing(false);
   };
 
   const signInUserEmail = (email, password) => {
-    setInitializing(true);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -52,7 +75,6 @@ export const AuthProvider = ({children}) => {
         console.log(error.code);
         console.error(error);
       });
-    setInitializing(false);
   };
 
   const signOutUser = () => {
@@ -73,6 +95,9 @@ export const AuthProvider = ({children}) => {
     <AuthContext.Provider
       value={{
         user,
+        initializing,
+        onboarded,
+        checkOnboarded,
         signUpUserEmail: signUpUserEmail,
         signInUserEmail: signInUserEmail,
         signOutUser: signOutUser,

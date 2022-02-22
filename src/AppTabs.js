@@ -13,6 +13,7 @@ const Tabs = createBottomTabNavigator();
 
 export const AppTabs = () => {
   const {signOutUser} = useContext(AuthContext);
+
   return (
     <Tabs.Navigator
       screenOptions={({route}) => ({

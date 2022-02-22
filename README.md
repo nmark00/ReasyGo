@@ -27,3 +27,4 @@
 
 
 1. Go to main directory and start app with `npx react-native run-ios`
+
