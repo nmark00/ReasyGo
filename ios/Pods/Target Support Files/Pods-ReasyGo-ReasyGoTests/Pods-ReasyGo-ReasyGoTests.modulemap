@@ -1,0 +1,6 @@
+module Pods_ReasyGo_ReasyGoTests {
+  umbrella header "Pods-ReasyGo-ReasyGoTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
