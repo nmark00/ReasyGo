@@ -1,4 +1,4 @@
-# ReasyGo
+# Knit (Previously ReasyGo)
 
 ## Environment Setup
 1. Install react native
